@@ -1,0 +1,51 @@
+﻿@model GestionDocumentosMVC.Models.UserModel
+
+@{
+    ViewBag.Title = "Editar Usuario";
+}
+
+<h2>Editar Usuario</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="mb-3">
+            @Html.LabelFor(model => model.FirstName, new { @class = "form-label" })
+            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-3">
+            @Html.LabelFor(model => model.LastName, new { @class = "form-label" })
+            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-3">
+            @Html.LabelFor(model => model.InstitutionalEmail, new { @class = "form-label" })
+            @Html.EditorFor(model => model.InstitutionalEmail, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.InstitutionalEmail, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-3">
+            @Html.LabelFor(model => model.RoleId, new { @class = "form-label" })
+            @Html.DropDownListFor(model => model.RoleId, new SelectList(
+                  new List<Object>{
+                       new { value = 1, text = "Admin" },
+                       new { value = 2, text = "Empleado" }
+                  }, "value", "text", Model.RoleId), new { @class = "form-control" }) @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="mb-3">
+                <input type="submit" value="Guardar Cambios" class="btn btn-warning" />
+                @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-secondary" })
+            </div>
+        </div>
+    }

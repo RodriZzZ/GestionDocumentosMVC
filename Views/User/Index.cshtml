@@ -1,0 +1,48 @@
+@model IEnumerable<GestionDocumentosMVC.Models.UserModel>
+
+@{
+    ViewBag.Title = "Listado de Usuarios";
+}
+
+<h2>Usuarios del Sistema</h2>
+@if (TempData["MensajeError"] != null)
+{
+    <div class="alert alert-danger mt-3">
+        @TempData["MensajeError"]
+    </div>
+}
+@if (TempData["MensajeExito"] != null)
+{
+    <div class="alert alert-success mt-3">
+        @TempData["MensajeExito"]
+    </div>
+}
+
+<p>
+    @Html.ActionLink("Crear Nuevo Usuario", "Create", null, new { @class = "btn btn-primary" })
+</p>
+
+<table class="table table-striped">
+    <tr>
+        <th>ID</th>
+        <th>Nombre Completo</th>
+        <th>Correo Institucional</th>
+        <th>Rol</th>
+        <th>Acciones</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.FirstName @item.LastName</td>
+            <td>@item.InstitutionalEmail</td>
+            <td>@(item.RoleId == 1 ? "Admin" : "Empleado")</td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-warning btn-sm" })
+
+                @Html.ActionLink("Eliminar", "Delete", new { id = item.Id }, new { @class = "btn btn-danger btn-sm", onclick = "return confirm('¿Estás seguro de que deseas eliminar este usuario?');" })
+            </td>
+        </tr>
+    }
+</table>

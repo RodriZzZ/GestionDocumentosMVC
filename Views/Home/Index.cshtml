@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Panel Principal";
+}
+
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="display-5 fw-bold text-primary">¡Bienvenido, @Session["UserName"]!</h1>
+            <p class="lead">Sistema Institucional de Gestión de Documentos y Control de Versiones.</p>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm border-primary border-top border-4">
+                <div class="card-body">
+                    <h4 class="card-title text-primary"><i class="bi bi-file-earmark-text"></i> Mis Documentos</h4>
+                    <p class="card-text">Sube nuevos archivos, actualiza versiones y administra los documentos que tienes en el sistema.</p>
+                    @Html.ActionLink("Ir a Mis Documentos", "Index", "Document", null, new { @class = "btn btn-outline-primary" })
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm border-success border-top border-4">
+                <div class="card-body">
+                    <h4 class="card-title text-success"><i class="bi bi-share"></i> Compartidos Conmigo</h4>
+                    <p class="card-text">Visualiza o edita los documentos a los que otros usuarios te han dado acceso.</p>
+                    @Html.ActionLink("Ver Compartidos", "SharedWithMe", "Document", null, new { @class = "btn btn-outline-success fw-bold" })
+                </div>
+            </div>
+        </div>
+
+        @if (Session["UserRole"] != null && (int)Session["UserRole"] == 1)
+        {
+            <div class="col-md-12 mt-4">
+                <div class="card shadow-sm border-dark border-top border-4 bg-light">
+                    <div class="card-body">
+                        <h4 class="card-title"><i class="bi bi-people"></i> Gestión de Usuarios (Admin)</h4>
+                        <p class="card-text">Crea, edita o elimina usuarios del sistema.</p>
+                        @Html.ActionLink("Administrar Usuarios", "Index", "User", null, new { @class = "btn btn-dark" })
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

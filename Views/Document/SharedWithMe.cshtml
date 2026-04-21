@@ -1,0 +1,70 @@
+﻿@model IEnumerable<GestionDocumentosMVC.Models.SharedDocumentViewModel>
+
+@{
+    ViewBag.Title = "Compartidos Conmigo";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3 mt-4">
+    <h2><i class="bi bi-share text-success"></i> Compartidos Conmigo</h2>
+</div>
+
+@if (TempData["MensajeError"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["MensajeError"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="card shadow-sm border-success border-top border-4">
+    <div class="card-body">
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Nombre del Archivo</th>
+                    <th>Propietario</th>
+                    <th>Mi Nivel de Acceso</th>
+                    <th>Versión Actual</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="5" class="text-center text-muted py-4">Nadie ha compartido documentos contigo aún.</td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var doc in Model)
+                    {
+                        <tr>
+                            <td class="fw-bold">@doc.Name@doc.Extension</td>
+                            <td>@doc.OwnerName</td>
+                            <td>
+                                @if (doc.Permission == "Read")
+                                {
+                                    <span class="badge bg-info text-dark"><i class="bi bi-eye"></i> Lectura</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning text-dark"><i class="bi bi-pencil"></i> Escritura</span>
+                                }
+                            </td>
+                            <td><span class="badge bg-secondary">v@(doc.Version)</span></td>
+                            <td>
+                                @Html.ActionLink("Descargar", "DownloadShared", new { id = doc.Id }, new { @class = "btn btn-success btn-sm" })
+
+                                @if (doc.Permission == "Write")
+                                {
+                                    @Html.ActionLink("Actualizar Versión", "UpdateVersion", new { id = doc.Id, name = doc.Name }, new { @class = "btn btn-warning btn-sm ms-1" })
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

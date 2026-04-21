@@ -1,0 +1,102 @@
+﻿@model GestionDocumentosMVC.Models.LoginViewModel
+
+@{
+    ViewBag.Title = "Inicio de sesión";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .split-container {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .login-card {
+        border-radius: 20px;
+        overflow: hidden;
+        border: none;
+    }
+
+    .left-panel {
+        background: linear-gradient(135deg, #0052D4, #4364F7, #6FB1FC);
+        color: white;
+        padding: 4rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .right-panel {
+        background: white;
+        padding: 4rem;
+    }
+
+    .input-pill {
+        border-radius: 50px !important;
+        padding: 12px 20px;
+        background-color: #f8f9fa;
+    }
+
+    .btn-login {
+        border-radius: 50px;
+        padding: 12px;
+        background-color: #007bff;
+        font-weight: bold;
+    }
+</style>
+
+<div class="container split-container">
+    <div class="row login-card shadow-lg w-100">
+        <div class="col-lg-7 d-none d-lg-flex left-panel">
+            <h1 class="display-4 fw-bold">Gestión de Documentos</h1>
+            <p class="lead">Sistema Institucional de Gestión de Documentos y Control de Versiones.</p>
+            <div class="mt-4">
+                <button type="button" class="btn btn-outline-light rounded-pill px-4">Leer más</button>
+            </div>
+        </div>
+
+        <div class="col-lg-5 right-panel d-flex align-items-center justify-content-center">
+            <div style="width: 100%; max-width: 320px; margin: 0 auto;">
+
+                <div class="text-center mb-5">
+                    <h2 class="fw-bold">¡Hola de nuevo!</h2>
+                    <p class="text-muted">Bienvenido de vuelta</p>
+                </div>
+                @if (TempData["MensajeExito"] != null)
+                {
+                    <div class="alert alert-success text-center small fw-bold mb-4" role="alert">
+                        @TempData["MensajeExito"]
+                    </div>
+                }
+                @using (Html.BeginForm("Login", "Auth", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="mb-4 text-center">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control input-pill", placeholder = "Correo Electrónico" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger small" })
+                    </div>
+
+                    <div class="mb-4 text-center">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control input-pill", placeholder = "Contraseña" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger small" })
+                    </div>
+
+                    <div class="mb-3 text-center">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger small fw-bold" })
+                    </div>
+
+                    <div class="d-grid gap-2 mb-4">
+                        <button type="submit" class="btn btn-primary btn-login text-white shadow-sm">Iniciar Sesión</button>
+                    </div>
+
+                    <div class="text-center">
+                        @Html.ActionLink("¿Olvidaste tu contraseña?", "RecoverPassword", "Auth", null, new { @class = "text-decoration-none text-muted small" })
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

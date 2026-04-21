@@ -1,0 +1,60 @@
+﻿@model IEnumerable<GestionDocumentosMVC.Models.DocumentViewModel>
+
+@{
+    ViewBag.Title = "Mis Documentos";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Mis Documentos</h2>
+    @Html.ActionLink("Subir Nuevo Documento", "Create", null, new { @class = "btn btn-primary" })
+</div>
+
+@if (TempData["MensajeExito"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["MensajeExito"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+@if (TempData["MensajeError"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["MensajeError"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <table class="table table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Extensión</th>
+                    <th>Fecha de Subida</th>
+                    <th>Versión</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var doc in Model)
+                {
+                    <tr>
+                        <td>@doc.Id</td>
+                        <td>@doc.Name</td>
+                        <td>@doc.Extension</td>
+                        <td>@doc.UploadDate.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td><span class="badge bg-secondary">v@(doc.Version)</span></td>
+                        <td>
+                            @Html.ActionLink("Descargar", "Download", new { id = doc.Id }, new { @class = "btn btn-success btn-sm" })
+                            @Html.ActionLink("Compartir", "Share", new { id = doc.Id, name = doc.Name }, new { @class = "btn btn-info btn-sm text-white" })
+                            @Html.ActionLink("Actualizar", "UpdateVersion", new { id = doc.Id, name = doc.Name }, new { @class = "btn btn-warning btn-sm" })
+                            @Html.ActionLink("Eliminar", "Delete", new { id = doc.Id }, new { @class = "btn btn-danger btn-sm", onclick = "return confirm('¿Estás seguro de que deseas eliminar este documento y todo su historial de forma permanente?');" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
