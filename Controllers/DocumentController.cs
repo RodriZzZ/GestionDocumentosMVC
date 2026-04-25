@@ -30,6 +30,7 @@ namespace GestionDocumentosMVC.Controllers
 
                     cmd.Parameters.AddWithValue("@UserId", currentUserId);
                     cmd.Parameters.AddWithValue("@SortOption", 0);
+                    cmd.Parameters.AddWithValue("@FileName", DBNull.Value);
 
                     conn.Open();
                     using (var reader = cmd.ExecuteReader())
